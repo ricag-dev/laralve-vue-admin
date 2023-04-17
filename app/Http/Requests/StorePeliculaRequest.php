@@ -11,7 +11,7 @@ class StorePeliculaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StorePeliculaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre' => ['required', 'max:100'],
+            'fecha_publicacion' => ['nullable', 'max:50'],
+            'imagen' => ['nullable', 'max:50'],
+            'estado' => ['nullable', 'max:150'],
         ];
     }
 }

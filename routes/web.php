@@ -37,10 +37,11 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/peliculas', [PeliculaController::class, 'index'])->name('peliculas');
-//    Route::post('/pelicula', [PeliculaController::class, 'store'])->name('profile.edit');
-//    Route::get('/pelicula/{id}', [PeliculaController::class, 'edit'])->name('profile.edit');
-//    Route::patch('/pelicula/{id}', [PeliculaController::class, 'update'])->name('profile.update');
-//    Route::delete('/pelicula/{id}', [PeliculaController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/pelicula', [PeliculaController::class, 'new'])->name('pelicula.new');
+    Route::post('/pelicula', [PeliculaController::class, 'store'])->name('peliculas.new');
+    Route::get('/pelicula/{id}', [PeliculaController::class, 'edit'])->name('pelicula.edit');
+    Route::patch('/pelicula/{id}', [PeliculaController::class, 'update'])->name('pelicula.update');
+    Route::delete('/pelicula/{id}', [PeliculaController::class, 'destroy'])->name('pelicula.destroy');
 });
 
 

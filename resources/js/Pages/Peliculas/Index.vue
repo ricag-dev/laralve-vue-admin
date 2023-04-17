@@ -1,9 +1,14 @@
 <template>
-    <Head title="Dashboard" />
+    <Head title="Peliculas" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+            <div class="flex">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Películas</h2>
+                <div class="ml-auto">
+                    <Button @click="newPelicula" size="small" severity="secondary" text raised>Nueva Película</Button>
+                </div>
+            </div>
         </template>
 
         <div class="py-12">
@@ -21,10 +26,12 @@
                         <Column style="width: 200px; min-width: 8rem" bodyStyle="text-align:center; padding:1rem 0">
                             <template #body="slotProps">
                                 <span class="p-buttonset">
-                                    <Button severity="secondary" title="Save" icon="pi pi-pencil" size="small" text/>
+                                    <Button @click="edit(slotProps.data.id)" severity="secondary" title="Editar" icon="pi pi-pencil" size="small" text/>
                                     <Button severity="secondary" title="Turnos" icon="pi pi-align-justify" size="small" text/>
-                                    <Button severity="secondary" title="Delete" icon="pi pi-unlock" size="small" text/>
-                                    <Button severity="secondary" title="Delete" icon="pi pi-lock" size="small" text/>
+
+                                    <Button v-if="slotProps.data.estado" severity="secondary" title="Activar" icon="pi pi-unlock" size="small" text/>
+                                    <Button v-else severity="secondary" title="Desactivar" icon="pi pi-lock" size="small" text/>
+
                                     <Button severity="secondary" title="Delete" icon="pi pi-trash" size="small" text/>
                                 </span>
                             </template>
@@ -38,19 +45,24 @@
 
 <script>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 export default {
     name: "Index",
-    components: {Head, AuthenticatedLayout, DataTable, Column, Button},
+    components: {Head, AuthenticatedLayout, DataTable, Column, Button, Link},
     props: {
         peliculas: Array,
     },
-    data(){
-        return {
-            edit: null
+    methods:{
+        edit(id){
+            const url = this.route('pelicula.edit',{id})
+            this.$inertia.get(url)
+        },
+        newPelicula(){
+            const url = this.route('pelicula.new')
+            this.$inertia.get(url)
         }
     }
 }

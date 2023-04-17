@@ -6,6 +6,7 @@ use App\Http\Requests\StorePeliculaRequest;
 use App\Http\Requests\UpdatePeliculaRequest;
 use App\Models\Pelicula;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PeliculaController extends Controller
@@ -25,15 +26,26 @@ class PeliculaController extends Controller
      */
     public function store(StorePeliculaRequest $request)
     {
-        //
+        Pelicula::create(
+            $request->all()
+        );
+        return Redirect::route('peliculas')->with('success', 'Pelicula creada!');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pelicula $pelicula)
+    public function new()
     {
-        //
+        return Inertia::render('Peliculas/Edit', [
+            'pelicula' => []
+        ]);
+    }
+    public function edit(Int $id)
+    {
+        return Inertia::render('Peliculas/Edit', [
+            'pelicula' => Pelicula::find($id)
+        ]);
     }
 
     /**
