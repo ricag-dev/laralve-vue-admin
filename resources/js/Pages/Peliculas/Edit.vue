@@ -64,7 +64,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> {{pelicula.turnos}}
     </AuthenticatedLayout>
 </template>
 
@@ -118,7 +118,7 @@ export default {
             if(typeof this.form.imagen != 'object'){
                 delete this.form.imagen
             }
-            this.pelicula.estado = this.estado.val
+            this.form.estado = this.estado.val
             if(this.pelicula.id){
                 this.form.post(`/pelicula/${this.pelicula.id}`)
             }else{

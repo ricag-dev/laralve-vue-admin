@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Turno extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['activo'];
+
+    protected $appends = ['pelicula'];
+
+    public function getPeliculaAttribute(){
+        return Pelicula::find($this->pelicula_id);
+    }
 }

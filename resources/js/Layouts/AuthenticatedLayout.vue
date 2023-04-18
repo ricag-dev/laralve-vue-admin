@@ -139,6 +139,9 @@ const showingNavigationDropdown = ref(false);
                             <NavLink :href="route('peliculas')" :active="route().current().indexOf('pelicula')>-1">
                                 Peliculas
                             </NavLink>
+                            <NavLink :href="route('turnos')" :active="route().current().indexOf('turno')>-1">
+                                Turnos
+                            </NavLink>
                         </div>
 
                         <div class="md:flex-1 md:overflow-y-auto w-full" scroll-region>

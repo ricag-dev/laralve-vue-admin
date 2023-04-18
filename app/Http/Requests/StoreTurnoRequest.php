@@ -11,7 +11,7 @@ class StoreTurnoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreTurnoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'turno' => ['required', 'min:5','date_format:H:i'],
+            'activo' => ['required', 'max:1'],
+            'pelicula_id' => ['required', 'exists:peliculas,id']
         ];
     }
 }

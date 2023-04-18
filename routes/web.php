@@ -37,23 +37,44 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
+    /**
+     * PELICULAS
+     */
     Route::get('/peliculas', [PeliculaController::class, 'index'])->name('peliculas');
 
-    //CREAR PELICULA
+    //CREAR
     Route::get('/pelicula', [PeliculaController::class, 'new'])->name('pelicula.new');
     Route::post('/pelicula', [PeliculaController::class, 'store'])->name('peliculas.new');
 
-    //EDITAR PELICULA
+    //EDITAR
     Route::get('/pelicula/{pelicula}', [PeliculaController::class, 'edit'])->name('pelicula.edit');
     Route::post('/pelicula/{pelicula}', [PeliculaController::class, 'update'])->name('pelicula.update');
 
     //ACTUALIZAR ESTADO
     Route::put('/pelicula/{pelicula}/estado', [PeliculaController::class, 'estado'])->name('pelicula.estado');
 
-    //ELIMINAR ESTADO
+    //ELIMINAR
     Route::delete('/pelicula/{pelicula}', [PeliculaController::class, 'destroy'])->name('pelicula.destroy');
 
-    Route::get('/pelicula/{id}/turnos', [TurnoController::class, 'turnos'])->name('pelicula.turnos');
+
+    /**
+     * Turnos
+     */
+    Route::get('/turnos', [TurnoController::class, 'index'])->name('turnos');
+
+    //CREAR
+    Route::get('/turno', [TurnoController::class, 'new'])->name('turno.new');
+    Route::post('/turno', [TurnoController::class, 'store'])->name('turnos.new');
+
+    //EDITAR
+    Route::get('/turno/{turno}', [TurnoController::class, 'edit'])->name('turno.edit');
+    Route::post('/turno/{turno}', [TurnoController::class, 'update'])->name('turno.update');
+
+    //ACTUALIZAR ESTADO
+    Route::put('/turno/{turno}/estado', [TurnoController::class, 'estado'])->name('turno.estado');
+    //ELIMINAR
+    Route::delete('/turno/{turno}', [TurnoController::class, 'destroy'])->name('turno.destroy');
+//    Route::get('/pelicula/{id}/turnos', [TurnoController::class, 'turnos'])->name('pelicula.turnos');
 });
 
 

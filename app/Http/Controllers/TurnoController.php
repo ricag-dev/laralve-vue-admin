@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTurnoRequest;
 use App\Http\Requests\UpdateTurnoRequest;
+use App\Models\Pelicula;
 use App\Models\Turno;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class TurnoController extends Controller
 {
@@ -13,7 +18,9 @@ class TurnoController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Turnos/Index', [
+            'turnos' => Turno::all()
+        ]);
     }
 
     /**
@@ -29,15 +36,38 @@ class TurnoController extends Controller
      */
     public function store(StoreTurnoRequest $request)
     {
-        //
+        $fields = $request->all();
+        Turno::insert($fields);
+        return Redirect::route('turnos')->with('success', 'Turno creado!');
     }
+
+    /**
+     * @param Turno $turno
+     * @return void
+     */
+    public function estado(Turno $turno)
+    {
+        try {
+            $turno->update(
+                Request::validate([
+                    "activo" => ["required", Rule::in([1,0])]
+                ])
+            );
+        }catch (\Throwable $exception){
+            \Sentry\captureException($exception);
+        }
+    }
+
 
     /**
      * Display the specified resource.
      */
-    public function show(Turno $turno)
+    public function new()
     {
-        //
+        return Inertia::render('Turnos/Edit', [
+            'turno' => [],
+            'peliculas' => Pelicula::all()
+        ]);
     }
 
     /**
@@ -45,7 +75,10 @@ class TurnoController extends Controller
      */
     public function edit(Turno $turno)
     {
-        //
+        return Inertia::render('Turnos/Edit', [
+            'turno' => $turno,
+            'peliculas' => Pelicula::all()
+        ]);
     }
 
     /**
@@ -61,6 +94,12 @@ class TurnoController extends Controller
      */
     public function destroy(Turno $turno)
     {
-        //
+        try {
+            $turno->delete();
+        }catch (\Throwable $exception){
+            \Sentry\captureException($exception);
+        }
+
+        return Redirect::route('turnos')->with('success', 'Turno eliminada!');
     }
 }

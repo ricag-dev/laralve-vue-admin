@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('turnos', function (Blueprint $table) {
             $table->id();
             $table->integer("pelicula_id");
-            $table->dateTime("turno");
+            $table->string("turno", 5);
             $table->boolean("activo");
             $table->timestamps();
         });

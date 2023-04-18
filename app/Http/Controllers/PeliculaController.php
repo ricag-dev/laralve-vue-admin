@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePeliculaRequest;
-use App\Http\Requests\UpdatePeliculaRequest;
 use App\Models\Pelicula;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
@@ -68,6 +67,7 @@ class PeliculaController extends Controller
     }
     public function edit(Pelicula $pelicula)
     {
+        $pelicula->turnos = $pelicula->turnos()->get();
         return Inertia::render('Peliculas/Edit', [
             'pelicula' => $pelicula
         ]);
