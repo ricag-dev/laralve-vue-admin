@@ -84,9 +84,16 @@ class TurnoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTurnoRequest $request, Turno $turno)
+    public function update(StoreTurnoRequest $request, Turno $turno)
     {
-        //
+        try {
+            $fields = $request->all();
+            $turno->update($fields);
+        }catch (\Throwable $exception){
+            \Sentry\captureException($exception);
+        }
+
+        return Redirect::route('turnos')->with('success', 'Turno Actualizado!');
     }
 
     /**

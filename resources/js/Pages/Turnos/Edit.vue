@@ -75,21 +75,31 @@ export default {
         peliculas: Array,
     },
     data() {
+        //PLICAR ACTIVO DEFAULT
         const opt_estado= [{ name: 'Activo', val: 1 },{ name: 'Desactivado', val: 0 }]
-        let estado = opt_estado.filter(e => e.val == this.turno.estado)
+        this.turno.activo = this.turno.activo ?? 1
+        let estado = opt_estado.filter(e => e.val == this.turno.activo)
         estado = estado ? estado[0] : null
+
+        //APLICAR TURNO DEFAULT
         const hora = new Date()
         if(this.turno.turno && this.turno.turno.indexOf(':')> -1){
             const [h, m] = this.turno.turno.split(':')
             hora.setHours(h)
             hora.setMinutes(m)
         }else{
-            this.turno.turno = `${hora.getHours()}:${hora.getMinutes()}`
+            this.turno.turno = this.getTurno(hora)
+        }
+
+        //APLICAR PELICULA_ID DEFAULT
+        let pelicula = null
+        if(this.turno.pelicula_id){
+            pelicula = this.peliculas.filter(e => this.turno.pelicula_id == e.id)[0]
         }
         return {
             hora,
             peliculas_list: this.peliculas,
-            pelicula: null,
+            pelicula,
             opt_estado,
             estado,
             form: this.$inertia.form({
@@ -108,10 +118,16 @@ export default {
         },
         hora(val){
             const f = new Date(val);
-            this.form.turno = `${f.getHours()}:${f.getMinutes()}`
+            this.form.turno = this.getTurno(f)
         }
     },
     methods: {
+        getTurno(date){
+            return `${this.timeFormat(date.getHours())}:${this.timeFormat(date.getMinutes())}`
+        },
+        timeFormat(time){
+            return time.toString().padStart(2, '0')
+        },
         search(event){
             this.pelicula = event.query
 
@@ -124,7 +140,6 @@ export default {
             }
         },
         update() {
-            this.form.activo = this.estado && this.estado.val ? this.estado.val : null
             this.form.pelicula = this.peliculas_list.id
             if(this.turno.id){
                 this.form.post(`/turno/${this.turno.id}`)

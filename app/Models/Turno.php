@@ -9,7 +9,7 @@ class Turno extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['activo'];
+    protected $fillable = ['activo', 'pelicula_id', 'turno'];
 
     protected $appends = ['pelicula'];
 
