@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/pelicula/{pelicula}/estado', [PeliculaController::class, 'estado'])->name('pelicula.estado');
 
     //ELIMINAR ESTADO
-    Route::delete('/pelicula/{id}', [PeliculaController::class, 'destroy'])->name('pelicula.destroy');
+    Route::delete('/pelicula/{pelicula}', [PeliculaController::class, 'destroy'])->name('pelicula.destroy');
 
     Route::get('/pelicula/{id}/turnos', [TurnoController::class, 'turnos'])->name('pelicula.turnos');
 });

@@ -86,6 +86,12 @@ class PeliculaController extends Controller
      */
     public function destroy(Pelicula $pelicula)
     {
-        //
+        try {
+            $pelicula->delete();
+        }catch (\Throwable $exception){
+            \Sentry\captureException($exception);
+        }
+
+        return Redirect::route('peliculas')->with('success', 'Pelicula eliminada!');
     }
 }

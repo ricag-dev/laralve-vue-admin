@@ -46,7 +46,7 @@
                                     <Button @click="estado(slotProps.data.id, 1)" v-if="!slotProps.data.estado" severity="secondary" title="Activar" icon="pi pi-unlock" size="small" text/>
                                     <Button @click="estado(slotProps.data.id, 0)" v-else severity="secondary" title="Desactivar" icon="pi pi-lock" size="small" text/>
 
-                                    <Button severity="secondary" title="Delete" icon="pi pi-trash" size="small" text/>
+                                    <Button @click="del(slotProps.data.id)" severity="secondary" title="Delete" icon="pi pi-trash" size="small" text/>
                                 </span>
                             </template>
                         </Column>
@@ -67,7 +67,6 @@ import Image from 'primevue/image';
 import Dropdown from "primevue/dropdown";
 import Tag from "primevue/tag";
 import {FilterMatchMode} from "primevue/api";
-import { router } from '@inertiajs/vue3'
 export default {
     name: "Index",
     components: {Head, AuthenticatedLayout, DataTable, Column, Button, Link, Image, Dropdown, Tag},
@@ -102,6 +101,12 @@ export default {
                 const url = this.route('pelicula.estado',{id})
                 this.form.estado= value;
                 this.form.put(url, {only: ['peliculas']})
+            }
+        },
+        del(id){
+            if(confirm("Desea eliminar la pelicula?")){
+                const url = this.route('pelicula.destroy',{id})
+                this.$inertia.delete(url, {only: ['peliculas']})
             }
         }
     }

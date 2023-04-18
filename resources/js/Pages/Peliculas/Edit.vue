@@ -50,7 +50,7 @@
                         </div>
                         <div class="flex items-center px-8 py-4 bg-gray-50 border-t border-gray-100">
                             <div>
-                                <Button v-if="pelicula.id" text severity="danger" tabindex="-1" type="button" @click="destroy">Eliminar
+                                <Button v-if="pelicula.id" text severity="danger" tabindex="-1" type="button" @click="del">Eliminar
                                     Película
                                 </Button>
                             </div>
@@ -117,11 +117,12 @@ export default {
                 this.form.post('/pelicula')
             }
         },
-        destroy() {
-            if (confirm('Are you sure you want to delete this organization?')) {
-                this.$inertia.delete(`/pelicula/${this.pelicula.id}`)
+        del(){
+            if(confirm("Desea eliminar la pelicula?")){
+                const url = this.route('pelicula.destroy',{id: this.pelicula.id})
+                this.$inertia.delete(url, {only: ['peliculas']})
             }
-        },
+        }
     }
 }
 </script>
