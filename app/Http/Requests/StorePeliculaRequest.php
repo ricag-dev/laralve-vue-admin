@@ -23,9 +23,9 @@ class StorePeliculaRequest extends FormRequest
     {
         return [
             'nombre' => ['required', 'max:100'],
-            'fecha_publicacion' => ['nullable', 'max:50'],
-            'imagen' => ['nullable', 'max:50'],
-            'estado' => ['nullable', 'max:150'],
+            'fecha_publicacion' => ['nullable', 'max:50', 'date'],
+            'imagen' => ['nullable', 'mimes:png,jpg,jpeg|max:2048'],
+            'estado' => ['nullable', 'max:1'],
         ];
     }
 }

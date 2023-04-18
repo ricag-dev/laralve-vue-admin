@@ -21,7 +21,7 @@
                             <div class="flex gap-4">
                                 <div class="lg:w-1/2">
                                     <div>
-                                        <label for="frm_fecha_publicacion">Fecha Publicación - {{form.fecha_publicacion}}</label>
+                                        <label for="frm_fecha_publicacion">Fecha Publicación</label>
                                         <Calendar id="frm_fecha_publicacion" dateFormat="yy-mm-dd" v-model="fecha_publicacion" showIcon class="w-full" :class="{ 'p-invalid': form.errors.fecha_publicacion }"/>
                                         <small class="p-error" id="text-error">{{
                                                 form.errors.fecha_publicacion || '&nbsp;'

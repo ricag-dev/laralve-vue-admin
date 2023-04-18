@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePeliculaRequest;
 use App\Http\Requests\UpdatePeliculaRequest;
 use App\Models\Pelicula;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class PeliculaController extends Controller
@@ -26,10 +27,34 @@ class PeliculaController extends Controller
      */
     public function store(StorePeliculaRequest $request)
     {
-        Pelicula::create(
-            $request->all()
-        );
+        $fields = $request->all();
+
+        if($request->hasFile('imagen')){
+            $name = now()->timestamp.".{$request->imagen->getClientOriginalName()}";
+            $path = $request->file('imagen')->storeAs('files', $name, 'public');
+
+            $fields["imagen"] = "/storage/{$path}";
+        }
+
+        Pelicula::create($fields);
         return Redirect::route('peliculas')->with('success', 'Pelicula creada!');
+    }
+
+    /**
+     * @param Pelicula $pelicula
+     * @return void
+     */
+    public function estado(Pelicula $pelicula)
+    {
+        try {
+            $pelicula->update(
+                Request::validate([
+                    "estado" => ["required", Rule::in([1,0])]
+                ])
+            );
+        }catch (\Throwable $exception){
+            \Sentry\captureException($exception);
+        }
     }
 
     /**
@@ -41,10 +66,10 @@ class PeliculaController extends Controller
             'pelicula' => []
         ]);
     }
-    public function edit(Int $id)
+    public function edit(Pelicula $pelicula)
     {
         return Inertia::render('Peliculas/Edit', [
-            'pelicula' => Pelicula::find($id)
+            'pelicula' => $pelicula
         ]);
     }
 

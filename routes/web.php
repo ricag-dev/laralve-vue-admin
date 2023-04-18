@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PeliculaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TurnoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,11 +38,22 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/peliculas', [PeliculaController::class, 'index'])->name('peliculas');
+
+    //CREAR PELICULA
     Route::get('/pelicula', [PeliculaController::class, 'new'])->name('pelicula.new');
     Route::post('/pelicula', [PeliculaController::class, 'store'])->name('peliculas.new');
-    Route::get('/pelicula/{id}', [PeliculaController::class, 'edit'])->name('pelicula.edit');
-    Route::patch('/pelicula/{id}', [PeliculaController::class, 'update'])->name('pelicula.update');
+
+    //EDITAR PELICULA
+    Route::get('/pelicula/{pelicula}', [PeliculaController::class, 'edit'])->name('pelicula.edit');
+    Route::patch('/pelicula/{pelicula}', [PeliculaController::class, 'update'])->name('pelicula.update');
+
+    //ACTUALIZAR ESTADO
+    Route::put('/pelicula/{pelicula}/estado', [PeliculaController::class, 'estado'])->name('pelicula.estado');
+
+    //ELIMINAR ESTADO
     Route::delete('/pelicula/{id}', [PeliculaController::class, 'destroy'])->name('pelicula.destroy');
+
+    Route::get('/pelicula/{id}/turnos', [TurnoController::class, 'turnos'])->name('pelicula.turnos');
 });
 
 
