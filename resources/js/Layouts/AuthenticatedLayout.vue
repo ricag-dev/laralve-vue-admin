@@ -109,6 +109,12 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('peliculas')" :active="route().current().indexOf('pelicula')>-1">
+                            Peliculas
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('turnos')" :active="route().current().indexOf('turno')>-1">
+                            Turnos
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -141,6 +147,10 @@ const showingNavigationDropdown = ref(false);
                             </NavLink>
                             <NavLink :href="route('turnos')" :active="route().current().indexOf('turno')>-1">
                                 Turnos
+                            </NavLink>
+                            <NavLink :href="route('profile.edit')"> Profile </NavLink>
+                            <NavLink :href="route('logout')" method="post" as="button" class="w-full">
+                                Log Out
                             </NavLink>
                         </div>
 
