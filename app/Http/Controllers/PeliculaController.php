@@ -103,4 +103,11 @@ class PeliculaController extends Controller
 
         return Redirect::route('peliculas')->with('success', 'Pelicula eliminada!');
     }
+
+    public function turnos(Pelicula $pelicula){
+        return Inertia::render('Turnos/Index', [
+            'turnos' => $pelicula->turnos()->get(),
+            'pelicula' => $pelicula
+        ]);
+    }
 }

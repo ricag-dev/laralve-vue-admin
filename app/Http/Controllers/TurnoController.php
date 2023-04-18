@@ -69,6 +69,15 @@ class TurnoController extends Controller
             'peliculas' => Pelicula::all()
         ]);
     }
+    public function new_by_peli(Pelicula $pelicula)
+    {
+        return Inertia::render('Turnos/Edit', [
+            'turno' => [
+                'pelicula_id' => $pelicula->id
+            ],
+            'peliculas' => Pelicula::all(),
+        ]);
+    }
 
     /**
      * Show the form for editing the specified resource.

@@ -3,7 +3,7 @@
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Película / {{ turno.nombre ?? 'Nueva' }}</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Turno / {{ turno.pelicula ? turno.pelicula.nombre : 'Nuevo' }}</h2>
         </template>
 
         <div class="py-12">
@@ -20,7 +20,7 @@
                             <div class="flex gap-4">
                                 <div class="lg:w-1/2">
                                     <div>
-                                        <label for="frm_fecha_publicacion">Peliculas</label>
+                                        <label for="frm_fecha_publicacion">Película</label>
                                         <br>
                                         <AutoComplete v-model="pelicula" optionLabel="nombre" dropdown :suggestions="peliculas_list" @complete="search" />
                                         <br>

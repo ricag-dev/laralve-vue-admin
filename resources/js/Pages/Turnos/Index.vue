@@ -4,7 +4,9 @@
     <AuthenticatedLayout>
         <template #header>
             <div class="flex">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Turnos</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Turnos
+                    <span v-if="pelicula" class="ml-1">/ {{pelicula.nombre}}</span>
+                </h2>
                 <div class="ml-auto">
                     <Button @click="newTurno" size="small" severity="secondary" text raised>Nueva Turno</Button>
                 </div>
@@ -64,6 +66,7 @@ export default {
     components: {Head, AuthenticatedLayout, DataTable, Column, Button, Link, Image, Dropdown, Tag},
     props: {
         turnos: Array,
+        pelicula: Object
     },
     data(){
         return {
@@ -81,7 +84,7 @@ export default {
             this.$inertia.get(url)
         },
         newTurno(){
-            const url = this.route('turno.new')
+            const url = this.pelicula ? this.route('turno.peli.new',{pelicula:this.pelicula.id}) : this.route('turno.new')
             this.$inertia.get(url)
         },
         estado(id, value){

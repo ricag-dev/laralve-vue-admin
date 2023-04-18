@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
      * PELICULAS
      */
     Route::get('/peliculas', [PeliculaController::class, 'index'])->name('peliculas');
+    Route::get('/pelicula/{pelicula}/turnos', [PeliculaController::class, 'turnos'])->name('pelicula.turnos');
 
     //CREAR
     Route::get('/pelicula', [PeliculaController::class, 'new'])->name('pelicula.new');
@@ -64,6 +65,7 @@ Route::middleware('auth')->group(function () {
 
     //CREAR
     Route::get('/turno', [TurnoController::class, 'new'])->name('turno.new');
+    Route::get('/turno/pelicula/{pelicula}', [TurnoController::class, 'new_by_peli'])->name('turno.peli.new');
     Route::post('/turno', [TurnoController::class, 'store'])->name('turnos.new');
 
     //EDITAR

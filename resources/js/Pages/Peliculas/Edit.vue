@@ -63,8 +63,27 @@
                         </div>
                     </form>
                 </div>
+                <h2 class="text-xl mt-10 font-bold">Turnos</h2>
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5 p-8">
+                    <DataTable :value="pelicula.turnos" tableStyle="min-width: 50rem">
+                        <Column field="id" header="Id" class="text-sm"></Column>
+                        <Column field="turno" header="Turno" class="text-sm"></Column>
+                        <Column style="width: 20px;" field="activo" header="Estado" bodyStyle="text-align:center" class="text-sm">
+                            <template #body="{data}">
+                                <i class="pi" :class="{ 'pi-check-circle text-green-500': data.activo, 'pi-times-circle text-red-400': !data.activo }"></i>
+                            </template>
+                        </Column>
+                        <Column style="width: 200px; min-width: 8rem" bodyStyle="text-align:center; padding:1rem 0">
+                            <template #body="slotProps">
+                                <span class="p-buttonset">
+                                    <Button @click="editTurno(slotProps.data.id)" severity="secondary" title="Editar" icon="pi pi-pencil" size="small" text/>
+                                </span>
+                            </template>
+                        </Column>
+                    </DataTable>
+                </div>
             </div>
-        </div> {{pelicula.turnos}}
+        </div>
     </AuthenticatedLayout>
 </template>
 
@@ -76,10 +95,12 @@ import InputText from 'primevue/inputtext';
 import Dropdown from "primevue/dropdown";
 import Calendar from "primevue/calendar";
 import Image from "primevue/image";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
 
 export default {
     name: "Edit",
-    components: {Head, AuthenticatedLayout, InputText, Button, Dropdown, Calendar, Image},
+    components: {Head, AuthenticatedLayout, InputText, Button, Dropdown, Calendar, Image, DataTable, Column},
     props: {
         pelicula: Object,
     },
@@ -130,7 +151,11 @@ export default {
                 const url = this.route('pelicula.destroy',{id: this.pelicula.id})
                 this.$inertia.delete(url, {only: ['peliculas']})
             }
-        }
+        },
+        editTurno(id){
+            const url = this.route('turno.edit',{id})
+            this.$inertia.get(url)
+        },
     }
 }
 </script>
