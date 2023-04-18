@@ -76,9 +76,18 @@ class PeliculaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePeliculaRequest $request, Pelicula $pelicula)
+    public function update(Pelicula $pelicula, StorePeliculaRequest $request)
     {
-        //
+        $fields = $request->all();
+        if($request->hasFile('imagen')){
+            $name = now()->timestamp.".{$request->imagen->getClientOriginalName()}";
+            $path = $request->file('imagen')->storeAs('files', $name, 'public');
+
+            $fields["imagen"] = "/storage/{$path}";
+        }
+
+        $pelicula->update($fields);
+        return Redirect::route('peliculas')->with('success', 'Pelicula Actualizada!');
     }
 
     /**

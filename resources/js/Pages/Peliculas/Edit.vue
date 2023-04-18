@@ -38,6 +38,9 @@
                                     <div>
                                         <label for="frm_imagen">Imagen</label>
                                         <br>
+                                        <div class="flex justify-center" v-if="pelicula.imagen">
+                                            <Image :src="pelicula.imagen" :alt="pelicula.nombre" width="100" />
+                                        </div>
                                         <input type="file" @input="form.imagen = $event.target.files[0]" />
                                         <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                             {{ form.progress.percentage }}%
@@ -72,16 +75,18 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Dropdown from "primevue/dropdown";
 import Calendar from "primevue/calendar";
+import Image from "primevue/image";
 
 export default {
     name: "Edit",
-    components: {Head, AuthenticatedLayout, InputText, Button, Dropdown, Calendar},
+    components: {Head, AuthenticatedLayout, InputText, Button, Dropdown, Calendar, Image},
     props: {
         pelicula: Object,
     },
     data() {
         const opt_estado= [{ name: 'Activo', val: 1 },{ name: 'Desactivado', val: 0 }]
-        const estado = opt_estado.filter(e => e.val == this.pelicula.estado)
+        let estado = opt_estado.filter(e => e.val == this.pelicula.estado)
+        estado = estado ? estado[0] : null
         if(!this.pelicula.fecha_publicacion){
             const f = new Date();
             this.pelicula.fecha_publicacion = `${f.getFullYear()}-${f.getMonth()}-${f.getDate()}`
@@ -110,9 +115,12 @@ export default {
     },
     methods: {
         update() {
+            if(typeof this.form.imagen != 'object'){
+                delete this.form.imagen
+            }
             this.pelicula.estado = this.estado.val
             if(this.pelicula.id){
-                this.form.put(`/pelicula/${this.pelicula.id}`)
+                this.form.post(`/pelicula/${this.pelicula.id}`)
             }else{
                 this.form.post('/pelicula')
             }

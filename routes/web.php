@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
 
     //EDITAR PELICULA
     Route::get('/pelicula/{pelicula}', [PeliculaController::class, 'edit'])->name('pelicula.edit');
-    Route::patch('/pelicula/{pelicula}', [PeliculaController::class, 'update'])->name('pelicula.update');
+    Route::post('/pelicula/{pelicula}', [PeliculaController::class, 'update'])->name('pelicula.update');
 
     //ACTUALIZAR ESTADO
     Route::put('/pelicula/{pelicula}/estado', [PeliculaController::class, 'estado'])->name('pelicula.estado');
